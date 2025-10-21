@@ -8,7 +8,7 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
-          <li class="nav-item" v-if="isAuthenticated"> 
+          <li class="nav-item" v-if="isAuthenticated">
             <router-link class="nav-link" to="/home">
               <i class="bi bi-house-fill me-1"></i>
               Inicio
@@ -26,10 +26,10 @@
           <div v-if="isAuthenticated" class="d-flex align-items-center">
             <span class="navbar-text me-3">
               <i class="bi bi-person-circle me-1"></i>
-              {{ userEmail }} 
+              {{ userEmail }}
             </span>
-            <button 
-              class="btn btn-outline-light btn-sm" 
+            <button
+              class="btn btn-outline-light btn-sm"
               @click="handleLogout"
               type="button"
             >
@@ -38,15 +38,15 @@
             </button>
           </div>
           <div v-else class="d-flex gap-2">
-            <router-link 
-              class="btn btn-outline-light btn-sm" 
+            <router-link
+              class="btn btn-outline-light btn-sm"
               to="/login"
             >
               <i class="bi bi-box-arrow-in-right me-1"></i>
               Iniciar Sesión
             </router-link>
-            <router-link 
-              class="btn btn-light btn-sm text-purple fw-bold" 
+            <router-link
+              class="btn btn-light btn-sm text-purple fw-bold"
               to="/registro"
             >
               <i class="bi bi-person-plus me-1"></i>
@@ -67,14 +67,14 @@ import { mapState, mapActions } from 'pinia';
 export default {
   name: 'NavBar',
   // Elimina 'data()' y 'created()' si contenían lógica de autenticación temporal.
-  
+
   // 2. Mapear el estado del store a propiedades computadas del componente
   computed: {
     ...mapState(useAuthStore, {
       // Mapea el getter 'isLoggedIn' del store al 'isAuthenticated' del template
-      isAuthenticated: 'isLoggedIn',     
+      isAuthenticated: 'isLoggedIn',
       // Mapea el getter 'currentUserEmail' del store al 'userEmail' del template
-      userEmail: 'currentUserEmail'      
+      userEmail: 'currentUserEmail'
     })
   },
   methods: {
@@ -95,7 +95,7 @@ export default {
 /* ESTILOS DE COLOR MODIFICADOS */
 .bg-purple {
   /* ¡CLAVE! Aplicamos el gradiente lineal del Login */
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important; 
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
 }
 .text-purple {
   color: #764ba2 !important;
@@ -136,7 +136,7 @@ export default {
   .navbar-nav .nav-link {
     padding: 0.75rem 0;
   }
-  
+
   .d-flex.gap-2 {
     flex-direction: column;
     gap: 0.5rem !important;
