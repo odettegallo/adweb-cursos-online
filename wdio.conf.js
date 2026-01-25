@@ -22,6 +22,7 @@ export const config = {
     //
     specs: [
         // ToDo: define location for spec files here
+        './test/specs/**/*.js'
     ],
     // Patterns to exclude.
     exclude: [
@@ -84,7 +85,7 @@ export const config = {
     // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
     // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
     // gets prepended directly.
-    // baseUrl: 'http://localhost:8080',
+    baseUrl: 'https://cursos-adweb-online.web.app/login',
     //
     // Default timeout for all waitFor* commands.
     waitforTimeout: 10000,
@@ -109,7 +110,7 @@ export const config = {
     // Make sure you have the wdio adapter package for the specific framework installed
     // before running any tests.
     framework: 'mocha',
-    
+
     //
     // The number of times to retry the entire specfile when it fails as a whole
     // specFileRetries: 1,
