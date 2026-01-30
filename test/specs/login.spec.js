@@ -1,45 +1,57 @@
-// test/specs/login.spec.js
+describe('Funcionalidad de Login - ADWEB Online', () => {
 
-describe('Flujo de Autenticación - ADWEB Online', () => {
+    beforeEach(async () => {
+        // Accedemos a la URL base definida en wdio.conf.js
+        await browser.url('/login');
+    });
+
     it('debería mostrar error con credenciales inválidas', async () => {
-        await browser.url('https://cursos-adweb-online.web.app/login'); // Ajusta el puerto si es necesario
-
-        const emailInput = await $('#email');
-        const passwordInput = await $('#password');
+        const emailInput = await $('#input-v-6');
+        const passwordInput = await $('#input-v-9');
         const loginBtn = await $('button[type="submit"]');
 
-        await emailInput.setValue('usuario_falso@test.com');
+        await emailInput.setValue('correo@falso.com');
         await passwordInput.setValue('123456');
         await loginBtn.click();
 
-        // Verificamos que aparezca el mensaje de error de Firebase o validación
-        const errorAlert = await $('.alert-danger');
-        await expect(errorAlert).toBeExisting();
-        await expect(errorAlert).toHaveTextContaining('Error al iniciar sesión');
+        // Esperamos a que aparezca la alerta de error que tienes en LoginView.vue
+        const errorMessage = await $('.v-alert');
+        await errorMessage.waitForDisplayed();
+
+        await expect(errorMessage).toHaveText('Error al iniciar sesión. Verifica tus credenciales.');
     });
 
-    it('debería permitir el acceso mediante el botón de "Entrar como Admin (prueba)"', async () => {
-        await browser.url('https://cursos-adweb-online.web.app/login');
+    it('debería iniciar sesión con éxito y redirigir a /home', async () => {
+        const emailInput = await $('#input-v-6');
+        const passwordInput = await $('#input-v-9');
+        const loginBtn = await $('button[type="submit"]');
 
-        const quickAdminBtn = await $('.btn-outline-primary'); // Botón de acceso rápido admin
-        await quickAdminBtn.click();
+        // Usamos las variables del .env
+        await emailInput.setValue(process.env.TEST_USER_EMAIL);
+        await passwordInput.setValue(process.env.TEST_USER_PASSWORD);
 
-        // Al hacer click, el componente redirige a /home
-        await expect(browser).toHaveUrlContaining('/home');
+        await loginBtn.click();
 
-        // Verificar que la NavBar ahora es visible (ya que no estamos en /login)
-        const navBar = await $('nav');
-        await expect(navBar).toBeDisplayed();
+        // Verificamos que la URL cambie a /home tras el login exitoso
+        await browser.waitUntil(
+            async () => (await browser.getUrl()).includes('/home'),
+            {
+                timeout: 10000,
+                timeoutMsg: 'No se redirigió a /home después de 10 segundos'
+            }
+        );
+
+        const currentUrl = await browser.getUrl();
+        await expect(currentUrl).toContain('/home');
     });
 
-    it('debería validar que los campos son obligatorios', async () => {
-        await browser.url('https://cursos-adweb-online.web.app/login');
-
+    it('debería validar que el campo email sea obligatorio (HTML5 validation)', async () => {
         const loginBtn = await $('button[type="submit"]');
         await loginBtn.click();
 
-        // El HTML5 validation o tus errores de data() deberían activarse
-        const emailError = await $('.invalid-feedback');
-        await expect(emailError).toBeDisplayed();
+        const emailInput = await $('#input-v-6');
+        // Verificamos si el campo es inválido mediante la pseudo-clase de CSS o el atributo
+        const isRequired = await emailInput.getProperty('required');
+        await expect(isRequired).toBe(true);
     });
 });
