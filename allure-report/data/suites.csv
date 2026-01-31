@@ -1,0 +1,4 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","1414","debería iniciar sesión con éxito y redirigir a /home","Funcionalidad de Login - ADWEB Online","2026-01-30","passed","2026-01-30","","","",""
+"","1437","debería mostrar error con credenciales inválidas","Funcionalidad de Login - ADWEB Online","2026-01-30","passed","2026-01-30","","","",""
+"","224","debería validar que el campo email sea obligatorio (HTML5 validation)","Funcionalidad de Login - ADWEB Online","2026-01-30","passed","2026-01-30","","","",""
